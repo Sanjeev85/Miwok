@@ -62,7 +62,7 @@ public class Numbers extends AppCompatActivity {
         }*/
 
         /* Array Adapter use for recycling view*/
-        WordAdapter itemsAdapter = new WordAdapter(this, words);
+        WordAdapter itemsAdapter = new WordAdapter(this, R.color.category_numbers, words);
 
         ListView listView = (ListView) findViewById(R.id.list);
 
