@@ -30,6 +30,7 @@
             android:textStyle="bold"
             tools:text="lutti" />
 
+
         <TextView
             android:id="@+id/default_text_view"
             android:layout_width="match_parent"
@@ -40,4 +41,5 @@
             android:textColor="@android:color/white"
             tools:text="one" />
     </LinearLayout>
+
 </LinearLayout>
