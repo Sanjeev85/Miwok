@@ -2,6 +2,7 @@ package com.example.miwok;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,10 +18,16 @@ public class Numbers extends AppCompatActivity {
         @Override
         public void onCompletion(MediaPlayer mp) {
             //this will called when audio file is completed
-            releadeMediaPlayer();
+            releaseMediaPlayer();
         }
     };
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("NumbersActivity", "onStop()");
+        releaseMediaPlayer();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +93,7 @@ public class Numbers extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(Numbers.this, "List item clicked", Toast.LENGTH_SHORT).show();
                 //move to another audio file without completing it
-                releadeMediaPlayer();
+                releaseMediaPlayer();
 
                 Word word = words.get(position);
                 mMediaPlayer = MediaPlayer.create(Numbers.this, word.getmAudioResourceId());
@@ -98,7 +105,7 @@ public class Numbers extends AppCompatActivity {
         });
     }
 
-    private void releadeMediaPlayer() {
+    private void releaseMediaPlayer() {
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
 

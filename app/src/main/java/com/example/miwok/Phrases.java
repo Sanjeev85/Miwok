@@ -2,6 +2,7 @@ package com.example.miwok;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +27,12 @@ public class Phrases extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("PhrasesActivity", "onStop()");
+        releaseMediaPlayer();
+    }
 
 
 

@@ -2,6 +2,7 @@ package com.example.miwok;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,6 +22,17 @@ public class Colors extends AppCompatActivity {
         }
     };
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("ColorsActivity", "onStop()");
+        /**Automatically audio stop if we left activity
+         * otherwise if this method is not used then audio file will
+         * first complete itself in the background which can utilize resources
+         * */
+        releaseMediaPlayer();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

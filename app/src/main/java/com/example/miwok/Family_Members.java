@@ -2,6 +2,7 @@ package com.example.miwok;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,6 +21,13 @@ public class Family_Members extends AppCompatActivity {
             releaseMediaPlayer();
         }
     };
+
+     @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("FamilyActivity", "onStop()");
+        releaseMediaPlayer();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
