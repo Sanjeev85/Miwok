@@ -1,17 +1,26 @@
 package com.example.miwok;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class Family_Members extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
+
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            // Now that the sound file has finished playing, release the media player resources.
+            releaseMediaPlayer();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +39,7 @@ public class Family_Members extends AppCompatActivity {
         words.add(new Word("grandfather", "paapa", R.drawable.family_grandfather, R.raw.family_grandfather));
 
 
-        WordAdapter FamilyAdapter = new WordAdapter (this, R.color.category_family, words);
+        WordAdapter FamilyAdapter = new WordAdapter(this, R.color.category_family, words);
 
         ListView listView = (ListView) findViewById(R.id.list);
 
@@ -38,11 +47,31 @@ public class Family_Members extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(Numbers.this, "List item clicked", Toast.LENGTH_SHORT).show();
+
+                //this will work when in between another audio is played before completion of
+                //first audio file
+
+                releaseMediaPlayer();
+
+
                 Word word = words.get(position);
                 mMediaPlayer = MediaPlayer.create(Family_Members.this, word.getmAudioResourceId());
                 mMediaPlayer.start();
+
+                //this will work only when song is over
+                mMediaPlayer.setOnCompletionListener(mCompletionListener);
             }
         });
         listView.setAdapter(FamilyAdapter);
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mMediaPlayer.release();
+
+            mMediaPlayer = null;
+        }
     }
 }

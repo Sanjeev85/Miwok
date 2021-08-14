@@ -1,18 +1,27 @@
 package com.example.miwok;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class Colors extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
+    //anonymous class
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +38,31 @@ public class Colors extends AppCompatActivity {
         words.add(new Word("black", "kululli", R.drawable.color_black, R.raw.color_black));
         words.add(new Word("white", "kelelli", R.drawable.color_white, R.raw.color_white));
 
-        WordAdapter ColorAdapter = new WordAdapter (this, R.color.category_colors, words);
+        WordAdapter ColorAdapter = new WordAdapter(this, R.color.category_colors, words);
 
         ListView listView = (ListView) findViewById(R.id.list);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //switch to another audio in between if any other list item clicked
+                releaseMediaPlayer();
+
                 Word word = words.get(position);
                 mMediaPlayer = MediaPlayer.create(Colors.this, word.getmAudioResourceId());
                 mMediaPlayer.start();
+
+                //on completion of audio
+                mMediaPlayer.setOnCompletionListener(mCompletionListener);
             }
         });
         listView.setAdapter(ColorAdapter);
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 }

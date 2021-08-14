@@ -11,7 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class Numbers extends AppCompatActivity {
-    public static MediaPlayer mMediaPlayer;
+    private MediaPlayer mMediaPlayer;
+
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            //this will called when audio file is completed
+            releadeMediaPlayer();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +85,25 @@ public class Numbers extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(Numbers.this, "List item clicked", Toast.LENGTH_SHORT).show();
+                //move to another audio file without completing it
+                releadeMediaPlayer();
+
                 Word word = words.get(position);
                 mMediaPlayer = MediaPlayer.create(Numbers.this, word.getmAudioResourceId());
                 mMediaPlayer.start();
+
+                //oncompletion listener
+                mMediaPlayer.setOnCompletionListener(mCompletionListener);
             }
         });
+    }
 
+    private void releadeMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
+
+            mMediaPlayer = null;
+
+        }
     }
 }
