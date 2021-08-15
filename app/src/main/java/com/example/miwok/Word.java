@@ -6,10 +6,14 @@ package com.example.miwok;
  */
 public class Word {
 
-    /** Default translation for the word */
+    /**
+     * Default translation for the word
+     */
     private String mDefaultTranslation;
 
-    /** Miwok translation for the word */
+    /**
+     * Miwok translation for the word
+     */
     private String mMiwokTranslation;
 
     private int mImageResourceId = IMAGE_GIVEN;
@@ -17,12 +21,13 @@ public class Word {
     private static int IMAGE_GIVEN = -1;
 
     private int mAudioResourceId;
+
     /**
      * Create a new Word object.
      *
      * @param defaultTranslation is the word in a language that the user is already familiar with
      *                           (such as English)
-     * @param miwokTranslation is the word in the Miwok language
+     * @param miwokTranslation   is the word in the Miwok language
      */
     public Word(String defaultTranslation, String miwokTranslation, int audioId) {
         mDefaultTranslation = defaultTranslation;
@@ -30,13 +35,12 @@ public class Word {
         mAudioResourceId = audioId;
     }
 
-     public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioId) {
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audioId) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
         mImageResourceId = imageResourceId;
         mAudioResourceId = audioId;
     }
-
 
 
     /**
@@ -53,18 +57,18 @@ public class Word {
         return mMiwokTranslation;
     }
 
-    public int getImageResourceId(){
+    public int getImageResourceId() {
         return mImageResourceId;
     }
 
     public boolean hasImage() {
-        if(mImageResourceId == IMAGE_GIVEN)
-            return  false;
+        if (mImageResourceId == IMAGE_GIVEN)
+            return false;
         else
             return true;
     }
 
-    public int getmAudioResourceId () {
+    public int getmAudioResourceId() {
         return mAudioResourceId;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +13,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+
 public class Colors extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
+    private AudioManager mAudioManager;
+
+    AudioManager.OnAudioFocusChangeListener mAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                mMediaPlayer.start();
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                releaseMediaPlayer();
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                mMediaPlayer.pause();
+                mMediaPlayer.seekTo(0);
+            }
+        }
+    };
+
+
     //anonymous class
     private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
@@ -38,6 +59,8 @@ public class Colors extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
 
         //so we can access it using anonymous class
         final ArrayList<Word> words = new ArrayList<Word>();
@@ -58,14 +81,21 @@ public class Colors extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //switch to another audio in between if any other list item clicked
+                // Release the media player if it currently exists because we are about to
+                // play a different sound file
                 releaseMediaPlayer();
-
                 Word word = words.get(position);
-                mMediaPlayer = MediaPlayer.create(Colors.this, word.getmAudioResourceId());
-                mMediaPlayer.start();
+                //requesting audio focus
+                int result = mAudioManager.requestAudioFocus(mAudioFocusChangeListener,
+                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
-                //on completion of audio
-                mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    mMediaPlayer = MediaPlayer.create(Colors.this, word.getmAudioResourceId());
+                    mMediaPlayer.start();
+
+                    //on completion of audio
+                    mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                }
             }
         });
         listView.setAdapter(ColorAdapter);
@@ -75,6 +105,7 @@ public class Colors extends AppCompatActivity {
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mAudioManager.abandonAudioFocus(mAudioFocusChangeListener);
         }
     }
 }

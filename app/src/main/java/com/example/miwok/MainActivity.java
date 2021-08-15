@@ -1,14 +1,16 @@
 package com.example.miwok;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+/**
+ * commit link udacity https://github.com/udacity/ud839_Miwok/tree/2b548eae0e57d7ad0cbb9c77656fd24215ec6cb4
+ */
 
 public class MainActivity extends AppCompatActivity {
 

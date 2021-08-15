@@ -21,6 +21,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
     public WordAdapter(Activity context, ArrayList<Word> list) {
         super(context, 0, list);
     }
+
     public WordAdapter(Activity context, int colorId, ArrayList<Word> List) {
         super(context, 0, List);
         this.mColorResourceId = colorId;
@@ -32,8 +33,8 @@ public class WordAdapter extends ArrayAdapter<Word> {
         Word currentWord = getItem(position);
 
         View listItemView = convertView;
-        if(listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent,false);
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
         TextView miwokTextView = (TextView) listItemView.findViewById(R.id.miwok_text_view);
