@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //find textView colors
         TextView colors = (TextView) findViewById(R.id.colors);
         //set onclickListener on colors view
