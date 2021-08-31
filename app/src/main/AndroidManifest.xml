@@ -10,10 +10,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Miwok">
         <activity android:name=".Phrases" android:label="@string/category_phrases">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity"/>
+
         </activity>
-        <activity android:name=".Colors" android:label="@string/category_colors"/>
-        <activity android:name=".Family_Members" android:label="@string/category_family" />
-        <activity android:name=".Numbers" android:label="@string/category_numbers"/>
+
+        <activity android:name=".Colors" android:label="@string/category_colors">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".Family_Members" android:label="@string/category_family">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".Numbers" android:label="@string/category_numbers">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity"/>
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
